@@ -1,0 +1,30 @@
+00000 : NOP	                    : 05 : FI,DI,__,__,__ : 5opcode:xxxxx:xxxxxx:xxxxxx
+00001 : MOV  Rsrc1, Rdst 		: 11 : FI,DI,__,__,WB : 5opcode:3Rdst:3Rsrc1:xxxxxx
+00010 : ADD  Rsrc1, Rsrc2, Rdst : 14 : FI,DI,EX,__,WB : 5opcode:3Rdst:3Rsrc1:3Rsrc2
+00011 : SUB  Rsrc1, Rsrc2, Rdst : 14 : FI,DI,EX,__,WB : 5opcode:3Rdst:3Rsrc1:3Rsrc2
+00100 : AND  Rsrc1, Rsrc2, Rdst : 14 : FI,DI,EX,__,WB : 5opcode:3Rdst:3Rsrc1:3Rsrc2
+00101 : OR   Rsrc1, Rsrc2, Rdst : 14 : FI,DI,EX,__,WB : 5opcode:3Rdst:3Rsrc1:3Rsrc2
+00110 : RLC  Rdst 				: 08 : FI,DI,EX,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+00111 : RRC  Rdst 				: 08 : FI,DI,EX,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+01000 : SHL  Rdst, Imm 			: 14 : FI,DI,EX,__,WB : 5opcode:3Rdst:4Imm  :xxxxxx
+01001 : SHR  Rdst, Imm 			: 14 : FI,DI,EX,__,WB : 5opcode:3Rdst:4Imm  :xxxxxx
+01010 : SETC 					: 05 : FI,DI,__,__,__ : 5opcode:xxxxx:xxxxxx:xxxxxx
+01011 : CLRC 					: 05 : FI,DI,__,__,__ : 5opcode:xxxxx:xxxxxx:xxxxxx
+01100 : PUSH Rdst 				: 08 : FI,DI,EX,ME,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+01101 : POP  Rdst 				: 08 : FI,DI,EX,ME,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+01110 : OUT  Rdst				: 08 : FI,DI,__,__,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+01111 : IN   Rdst 				: 08 : FI,DI,__,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+10000 : NOT  Rdst 				: 08 : FI,DI,EX,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+10001 : NEG  Rdst 				: 08 : FI,DI,EX,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+10010 : INC  Rdst 				: 08 : FI,DI,EX,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+10011 : DEC  Rdst 				: 08 : FI,DI,EX,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx
+10100 : JZ   Rdst 				: 08 : FI,DI,__,__,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+10101 : JN   Rdst 				: 08 : FI,DI,__,__,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+10110 : JC   Rdst				: 08 : FI,DI,__,__,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+10111 : JMP  Rdst 				: 08 : FI,DI,__,__,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+11000 : CALL Rdst 				: 08 : FI,DI,__,ME,__ : 5opcode:3Rdst:xxxxxx:xxxxxx
+11001 : RET 					: 05 : FI,DI,__,ME,__ : 5opcode:xxxxx:xxxxxx:xxxxxx
+11010 : RTI 					: 05 : FI,DI,__,ME,__ : 5opcode:xxxxx:xxxxxx:xxxxxx
+11011 : LDM  Rdst, Imm 			: 24 : FI,DI,__,__,WB : 5opcode:3Rdst:xxxxxx:xxxxxx + 16Imm 
+11100 : LDD  Rdst, EA			: 24 : FI,DI,__,ME,WB : 5opcode:3Rdst:xxxxxx:xxxxxx + 16EA
+11101 : STD  Rdst, EA			: 24 : FI,DI,__,ME,__ : 5opcode:3Rdst:xxxxxx:xxxxxx + 16EA
