@@ -96,6 +96,12 @@ ARCHITECTURE a_project_system OF project_system IS
 	COMPONENT my_memory is
 	port (
 		clk : in std_logic;
+		EnablePush  : in std_logic;
+		EnablePop   : in std_logic;
+		SP_In		: in std_logic_vector(15 downto 0);
+		SP_Out		: out std_logic_vector(15 downto 0);
+		PushData    : in std_logic_vector(15 downto 0);
+		PopData 	: out std_logic_vector(15 downto 0);
 		EnableRead  : in std_logic;
 		EnableWrite : in std_logic;
 		address : in std_logic_vector(15 downto 0);
@@ -122,7 +128,11 @@ ARCHITECTURE a_project_system OF project_system IS
 		Flags_out     : out std_logic_vector(03 downto 0)
 		);
 	End COMPONENT;
+	--GLOBAL
+	SIGNAL OUT_PORT,IN_PORT : std_logic_vector(15 DOWNTO 0);
+
 	
+	--IF
 	SIGNAL Current_PC,NEXT_PC,Inst : std_logic_vector(15 DOWNTO 0);
 	
 	--ID
@@ -145,6 +155,7 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL EM_CCR 	: std_logic_vector(3 DOWNTO 0);
 	SIGNAL Mem_Out  : std_logic_vector(15 DOWNTO 0);
 	SIGNAL DataToReg  : std_logic_vector(15 DOWNTO 0);
+	SIGNAL SP_In,SP_Out,PopData,PushData : std_logic_vector(15 DOWNTO 0);
 	
 	--WB
 	SIGNAL MW_Inst,MW_DataToReg : std_logic_vector(15 DOWNTO 0);
@@ -189,15 +200,29 @@ ARCHITECTURE a_project_system OF project_system IS
 	RegPipe3 	    : regaux3	     port map(system_clock,rest_registers,DE_Inst,ALuAns,CCR,DE_ControlSignals,EM_Inst,EM_ALuAns,EM_CCR,EM_ControlSignals);
 
 	--ME
-	MemoryFetch     : my_memory      port map(system_clock,EM_ControlSignals(14),EM_ControlSignals(13),DE_Inst,EM_ALuAns,Mem_Out);
+	SP_In <= "0000001111111111" WHEN rest_registers='1'
+	ELSE SP_Out;
+	
+	PushData <= EM_ALuAns;
+	
+	MemoryFetch     : my_memory      port map(system_clock,EM_ControlSignals(12),EM_ControlSignals(11),SP_In,SP_Out,PushData,PopData,EM_ControlSignals(14),EM_ControlSignals(13),DE_Inst,EM_ALuAns,Mem_Out);
 	
 	DataToReg <= DE_Inst WHEN EM_Inst(15 DOWNTO 11) = "11011" 
 	ELSE Mem_Out WHEN EM_ControlSignals(14)='1'
+	ELSE PopData WHEN EM_Inst(15 DOWNTO 11) = "01101"
+	ELSE IN_PORT WHEN EM_Inst(15 DOWNTO 11) = "01111"
 	ELSE EM_ALuAns;
+	
+	--OUT_PORT <= MW_DataToReg WHEN EM_Inst(15 DOWNTO 11)="01110" AND MW_Inst(10 DOWNTO 8)=EM_Inst(10 DOWNTO 8)
+	--ELSE        EM_ALuAns WHEN EM_Inst(15 DOWNTO 11)="01110"
+	--ELSE OUT_PORT;
 	
 	RegPipe4 	    : regaux4	     port map(system_clock,rest_registers,EM_Inst,DataToReg,EM_ControlSignals,MW_Inst,MW_DataToReg,MW_ControlSignals);
 
 	--WB
+	
+	
+	
 	
 END a_project_system;
 

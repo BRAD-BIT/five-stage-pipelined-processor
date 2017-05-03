@@ -1,11 +1,18 @@
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use ieee.numeric_std.all;
+use IEEE.std_logic_1164.all;
+use IEEE.std_logic_unsigned.all;
+use ieee.numeric_std.all;              
 
 
 Entity my_memory is
 	port (
 		clk : in std_logic;
+		EnablePush  : in std_logic;
+		EnablePop   : in std_logic;
+		SP_In		: in std_logic_vector(15 downto 0);
+		SP_Out		: out std_logic_vector(15 downto 0);
+		PushData    : in std_logic_vector(15 downto 0);
+		PopData 	: out std_logic_vector(15 downto 0);
 		EnableRead  : in std_logic;
 		EnableWrite : in std_logic;
 		address : in std_logic_vector(15 downto 0);
@@ -28,6 +35,17 @@ begin
 				end if;
 				if EnableWrite='1' then
   				ram(to_integer(unsigned(address)))<=datain;
+				end if;
+				if EnablePop='1' then
+  				PopData <= ram(to_integer(unsigned(SP_In+"0000000000000001")));
+				SP_Out <= SP_In+"0000000000000001";
+				end if;
+				if EnablePush='1' then
+  				ram(to_integer(unsigned(SP_In)))<=PushData;
+				SP_Out <= SP_In-"0000000000000001";
+				end if;
+				if EnablePush='0' AND EnablePop='0' then 
+				SP_Out<=SP_In;
 				end if;
 			end if;
 	end process;
