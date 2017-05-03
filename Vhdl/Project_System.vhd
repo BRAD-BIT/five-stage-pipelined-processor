@@ -5,7 +5,6 @@ use IEEE.std_logic_unsigned.all;
 ENTITY project_system IS
 	PORT  ( 
 			system_clock            : IN     std_logic;
-			memory_clock            : IN     std_logic;
 			rest_registers          : IN     std_logic
 	     );
 END project_system;
@@ -18,7 +17,12 @@ ARCHITECTURE a_project_system OF project_system IS
 		  q : OUT std_logic_vector(15 DOWNTO 0));
 	END COMPONENT;
 
-	
+	COMPONENT my_branch_flush_reg IS
+	PORT( Clk,rst,en : IN std_logic;
+		  d : IN  std_logic;
+		  q : OUT std_logic);
+	END COMPONENT;
+
 	COMPONENT my_inst_memory is
 	port (
 		clk : in std_logic;
@@ -127,11 +131,14 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL ControlSignals 	       : std_logic_vector(23 DOWNTO 0);
 	SIGNAL ReadRegNum1,ReadRegNum2,WriteRegNum : std_logic_vector(2 DOWNTO 0);
 	SIGNAL StopControlUnit		   : std_logic;
+	SIGNAL RegPipe1Rst			   : std_logic; 
 	--EX
 	SIGNAL DE_ReadDate1,DE_ReadDate2,DE_Inst,ALuAns : std_logic_vector(15 DOWNTO 0);
 	SIGNAL DE_ControlSignals 	       : std_logic_vector(23 DOWNTO 0);
 	SIGNAL CCR 	: std_logic_vector(3 DOWNTO 0);
-
+	SIGNAL EnableBranch : std_logic;
+	SIGNAL EnableBranchFlush : std_logic;
+	SIGNAL RegPipe2Rst			   : std_logic;
 	--ME
 	SIGNAL EM_Inst,EM_ALuAns : std_logic_vector(15 DOWNTO 0);
 	SIGNAL EM_ControlSignals 	       : std_logic_vector(23 DOWNTO 0);
@@ -146,9 +153,14 @@ ARCHITECTURE a_project_system OF project_system IS
 	BEGIN
 	--IF
 	CurrentPC	: my_reg             port map(system_clock,rest_registers,'1',NEXT_PC,Current_PC);
-	NEXTPC		: NEXT_PC <= Current_PC+1;
+	
+	NEXT_PC <= ALuAns WHEN EnableBranchFlush='1' AND system_clock='0'
+	ELSE Current_PC+1;
+	
 	InstMemory	: my_inst_memory     port map(system_clock,Current_PC(5 downto 0),Inst);
-	RegPipe1 	: regaux1	     port map(system_clock,rest_registers,Inst,FD_Inst);
+	
+	RegPipe1Rst<=rest_registers or EnableBranchFlush;
+	RegPipe1 	: regaux1	     port map(system_clock,RegPipe1Rst,Inst,FD_Inst);
 	--ID
 
 	FD_Inst_Opcode <= FD_Inst(15 downto 11);
@@ -159,11 +171,21 @@ ARCHITECTURE a_project_system OF project_system IS
 	ReadRegNum2 <= FD_Inst(4 downto 2);
 	WriteRegNum <= MW_Inst(10 downto 8);
 	RegisterFile    : my_reg_file    port map(ReadRegNum1,ReadRegNum2,WriteRegNum,MW_DataToReg,system_clock,rest_registers,MW_ControlSignals(21),ReadData1,ReadData2);
-	RegPipe2 	    : regaux2	     port map(system_clock,rest_registers,FD_Inst,ReadData1,ReadData2,ControlSignals,DE_Inst,DE_ReadDate1,DE_ReadDate2,DE_ControlSignals);
+	
+	RegPipe2Rst<=rest_registers or EnableBranchFlush;
+	RegPipe2 	    : regaux2	     port map(system_clock,RegPipe2Rst,FD_Inst,ReadData1,ReadData2,ControlSignals,DE_Inst,DE_ReadDate1,DE_ReadDate2,DE_ControlSignals);
 	
 	--EX
 		
 	AluExecution	: my_alu		 port map(DE_ReadDate1,DE_ReadDate2,DE_ControlSignals(18 DOWNTO 15),EM_CCR,ALuAns,CCR);
+	
+	EnableBranch <= '1' WHEN DE_Inst(15 DOWNTO 11)="10100" AND CCR(0)='1'
+	ELSE			'1' WHEN DE_Inst(15 DOWNTO 11)="10101" AND CCR(1)='1'
+	ELSE			'1' WHEN DE_Inst(15 DOWNTO 11)="10110" AND CCR(2)='1'
+	ELSE 			'0';
+	
+	FlushSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableBranch,EnableBranchFlush);
+	
 	RegPipe3 	    : regaux3	     port map(system_clock,rest_registers,DE_Inst,ALuAns,CCR,DE_ControlSignals,EM_Inst,EM_ALuAns,EM_CCR,EM_ControlSignals);
 
 	--ME
@@ -178,3 +200,4 @@ ARCHITECTURE a_project_system OF project_system IS
 	--WB
 	
 END a_project_system;
+

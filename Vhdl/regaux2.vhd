@@ -18,7 +18,7 @@ Entity regaux2 is
 
 Architecture behave of regaux2 is
     begin
-        PROCESS (Clk,rst)
+        PROCESS (Clk)
 	BEGIN
 		IF rst = '1'  THEN
 			inst_out        <= (OTHERS=>'0');

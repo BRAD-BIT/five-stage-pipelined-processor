@@ -19,7 +19,7 @@ signal ram : ram_type ;
 begin
 	process(clk,rest,address) is
   		Begin
-			IF rest = '1'  THEN
+			IF rest = '1' or address="11111" THEN
 			dataout <= (OTHERS=>'0');
 			ELSIF address'event then  
   			dataout <= ram(to_integer(unsigned(address)));

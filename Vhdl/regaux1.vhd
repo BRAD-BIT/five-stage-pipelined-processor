@@ -12,7 +12,7 @@ Entity regaux1 is
 
 Architecture behave of regaux1 is
     begin
-        PROCESS (Clk,rst)
+        PROCESS (Clk)
 	BEGIN
 		IF rst = '1'  THEN
 			inst_out <= (OTHERS=>'1');
