@@ -41,6 +41,8 @@ ARCHITECTURE a_project_system OF project_system IS
 	COMPONENT regaux1 is
     	Port (  Clk,rst  : IN  std_logic;
 	  	inst_in  : in  std_logic_vector(15 downto 0);	
+ 		next_pc_in  : in  std_logic_vector(15 downto 0);	
+    		next_pc_out : out std_logic_vector(15 downto 0);
          	inst_out : out std_logic_vector(15 downto 0));
    	END COMPONENT;
 
@@ -49,8 +51,10 @@ ARCHITECTURE a_project_system OF project_system IS
 			  inst_in  : in  std_logic_vector(15 downto 0);
 			  ReadData1_in  : in  std_logic_vector(15 downto 0);
 			  ReadData2_in  : in  std_logic_vector(15 downto 0);	
-			  ControlUnit_in  : in  std_logic_vector(23 downto 0);	
-				  inst_out  : out  std_logic_vector(15 downto 0);
+			  ControlUnit_in  : in  std_logic_vector(23 downto 0);
+			  next_pc_in  : in  std_logic_vector(15 downto 0);	
+                          next_pc_out : out std_logic_vector(15 downto 0);	
+	                  inst_out  : out  std_logic_vector(15 downto 0); 
 			  ReadData1_out  : out  std_logic_vector(15 downto 0);
 			  ReadData2_out  : out  std_logic_vector(15 downto 0);	
 			  ControlUnit_out  : out  std_logic_vector(23 downto 0)	
@@ -63,6 +67,8 @@ ARCHITECTURE a_project_system OF project_system IS
 	  AluAns_in  : in  std_logic_vector(15 downto 0);
 	  CCR_in  : in  std_logic_vector(3 downto 0);	
 	  ControlUnit_in  : in  std_logic_vector(23 downto 0);	
+ 	  next_pc_in  : in  std_logic_vector(15 downto 0);	
+          next_pc_out : out std_logic_vector(15 downto 0);
           inst_out  : out  std_logic_vector(15 downto 0);
 	  AluAns_out  : out  std_logic_vector(15 downto 0);
 	  CCR_out  : out  std_logic_vector(3 downto 0);	
@@ -136,13 +142,17 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL Current_PC,NEXT_PC,Inst : std_logic_vector(15 DOWNTO 0);
 	
 	--ID
+	SIGNAL FD_NEXT_PC : std_logic_vector(15 DOWNTO 0);
 	SIGNAL FD_Inst,ReadData1,ReadData2 : std_logic_vector(15 DOWNTO 0);
 	SIGNAL FD_Inst_Opcode          : std_logic_vector(04 DOWNTO 0);
 	SIGNAL ControlSignals 	       : std_logic_vector(23 DOWNTO 0);
 	SIGNAL ReadRegNum1,ReadRegNum2,WriteRegNum : std_logic_vector(2 DOWNTO 0);
 	SIGNAL StopControlUnit		   : std_logic;
 	SIGNAL RegPipe1Rst			   : std_logic; 
+	SIGNAL EnableJmpCall 		   : std_logic;
+	SIGNAL EnableJmpCallFlush      : std_logic;
 	--EX
+	SIGNAL DE_NEXT_PC : std_logic_vector(15 DOWNTO 0);
 	SIGNAL DE_ReadDate1,DE_ReadDate2,DE_Inst,ALuAns : std_logic_vector(15 DOWNTO 0);
 	SIGNAL DE_ControlSignals 	       : std_logic_vector(23 DOWNTO 0);
 	SIGNAL CCR 	: std_logic_vector(3 DOWNTO 0);
@@ -150,13 +160,16 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL EnableBranchFlush : std_logic;
 	SIGNAL RegPipe2Rst			   : std_logic;
 	--ME
+	SIGNAL EM_NEXT_PC : std_logic_vector(15 DOWNTO 0);
 	SIGNAL EM_Inst,EM_ALuAns : std_logic_vector(15 DOWNTO 0);
 	SIGNAL EM_ControlSignals 	       : std_logic_vector(23 DOWNTO 0);
 	SIGNAL EM_CCR 	: std_logic_vector(3 DOWNTO 0);
 	SIGNAL Mem_Out  : std_logic_vector(15 DOWNTO 0);
 	SIGNAL DataToReg  : std_logic_vector(15 DOWNTO 0);
 	SIGNAL SP_In,SP_Out,PopData,PushData : std_logic_vector(15 DOWNTO 0);
-	
+	SIGNAL EnableRet 		   : std_logic;
+	SIGNAL EnableRetFlush      : std_logic;
+	SIGNAL RegPipe3Rst		   : std_logic;
 	--WB
 	SIGNAL MW_Inst,MW_DataToReg : std_logic_vector(15 DOWNTO 0);
 	SIGNAL MW_ControlSignals 	: std_logic_vector(23 DOWNTO 0);
@@ -165,13 +178,15 @@ ARCHITECTURE a_project_system OF project_system IS
 	--IF
 	CurrentPC	: my_reg             port map(system_clock,rest_registers,'1',NEXT_PC,Current_PC);
 	
-	NEXT_PC <= ALuAns WHEN EnableBranchFlush='1' AND system_clock='0'
-	ELSE Current_PC+1;
+	NEXT_PC <= ALuAns    WHEN EnableBranchFlush='1'  AND system_clock='0'
+	ELSE 	   ReadData1 WHEN EnableJmpCallFlush='1' AND system_clock='0'
+	ELSE       "000000"&PopData(9 DOWNTO 0) WHEN EnableRetFlush='1' AND system_clock='0'
+	ELSE       Current_PC+1;
 	
 	InstMemory	: my_inst_memory     port map(system_clock,Current_PC(5 downto 0),Inst);
 	
-	RegPipe1Rst<=rest_registers or EnableBranchFlush;
-	RegPipe1 	: regaux1	     port map(system_clock,RegPipe1Rst,Inst,FD_Inst);
+	RegPipe1Rst<=rest_registers or EnableBranchFlush or EnableJmpCallFlush or EnableRetFlush;
+	RegPipe1 	: regaux1	     port map(system_clock,RegPipe1Rst,Inst,NEXT_PC,FD_NEXT_PC,FD_Inst);
 	--ID
 
 	FD_Inst_Opcode <= FD_Inst(15 downto 11);
@@ -183,8 +198,20 @@ ARCHITECTURE a_project_system OF project_system IS
 	WriteRegNum <= MW_Inst(10 downto 8);
 	RegisterFile    : my_reg_file    port map(ReadRegNum1,ReadRegNum2,WriteRegNum,MW_DataToReg,system_clock,rest_registers,MW_ControlSignals(21),ReadData1,ReadData2);
 	
-	RegPipe2Rst<=rest_registers or EnableBranchFlush;
-	RegPipe2 	    : regaux2	     port map(system_clock,RegPipe2Rst,FD_Inst,ReadData1,ReadData2,ControlSignals,DE_Inst,DE_ReadDate1,DE_ReadDate2,DE_ControlSignals);
+	
+	EnableJmpCall <= '1' WHEN FD_Inst(15 DOWNTO 11)="11000" or FD_Inst(15 DOWNTO 11)="10111" 
+	ELSE '0';
+	FlushJmpCallSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableJmpCall,EnableJmpCallFlush);
+
+	
+	
+	
+	--OUT_PORT <= ReadData1 WHEN FD_Inst(15 DOWNTO 11)="01110"
+	--ELSE OUT_PORT;
+	
+	
+	RegPipe2Rst<=rest_registers or EnableBranchFlush or EnableRetFlush;
+	RegPipe2 	    : regaux2	     port map(system_clock,RegPipe2Rst,FD_Inst,ReadData1,ReadData2,ControlSignals,FD_NEXT_PC,DE_NEXT_PC,DE_Inst,DE_ReadDate1,DE_ReadDate2,DE_ControlSignals);
 	
 	--EX
 		
@@ -195,15 +222,17 @@ ARCHITECTURE a_project_system OF project_system IS
 	ELSE			'1' WHEN DE_Inst(15 DOWNTO 11)="10110" AND CCR(2)='1'
 	ELSE 			'0';
 	
-	FlushSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableBranch,EnableBranchFlush);
+	FlushBranchSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableBranch,EnableBranchFlush);
 	
-	RegPipe3 	    : regaux3	     port map(system_clock,rest_registers,DE_Inst,ALuAns,CCR,DE_ControlSignals,EM_Inst,EM_ALuAns,EM_CCR,EM_ControlSignals);
+	RegPipe3Rst<=rest_registers or EnableRetFlush;
+	RegPipe3 	    : regaux3	     port map(system_clock,RegPipe3Rst,DE_Inst,ALuAns,CCR,DE_ControlSignals,DE_NEXT_PC,EM_NEXT_PC,EM_Inst,EM_ALuAns,EM_CCR,EM_ControlSignals);
 
 	--ME
 	SP_In <= "0000001111111111" WHEN rest_registers='1'
 	ELSE SP_Out;
 	
-	PushData <= EM_ALuAns;
+	PushData <= EM_ALuAns WHEN EM_ControlSignals(10 DOWNTO 9)="00"
+	ELSE        "00"&EM_CCR&EM_NEXT_PC(9 DOWNTO 0);
 	
 	MemoryFetch     : my_memory      port map(system_clock,EM_ControlSignals(12),EM_ControlSignals(11),SP_In,SP_Out,PushData,PopData,EM_ControlSignals(14),EM_ControlSignals(13),DE_Inst,EM_ALuAns,Mem_Out);
 	
@@ -212,17 +241,17 @@ ARCHITECTURE a_project_system OF project_system IS
 	ELSE PopData WHEN EM_Inst(15 DOWNTO 11) = "01101"
 	ELSE IN_PORT WHEN EM_Inst(15 DOWNTO 11) = "01111"
 	ELSE EM_ALuAns;
+
+	EnableRet<='1' WHEN EM_Inst(15 DOWNTO 11)="11001"
+	ELSE '0';
 	
-	--OUT_PORT <= MW_DataToReg WHEN EM_Inst(15 DOWNTO 11)="01110" AND MW_Inst(10 DOWNTO 8)=EM_Inst(10 DOWNTO 8)
-	--ELSE        EM_ALuAns WHEN EM_Inst(15 DOWNTO 11)="01110"
-	--ELSE OUT_PORT;
+	FlushRetSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableRet,EnableRetFlush);
 	
 	RegPipe4 	    : regaux4	     port map(system_clock,rest_registers,EM_Inst,DataToReg,EM_ControlSignals,MW_Inst,MW_DataToReg,MW_ControlSignals);
 
 	--WB
-	
-	
-	
+
 	
 END a_project_system;
+
 

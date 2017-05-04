@@ -9,6 +9,8 @@ Entity regaux3 is
 	  AluAns_in  : in  std_logic_vector(15 downto 0);
 	  CCR_in  : in  std_logic_vector(3 downto 0);	
 	  ControlUnit_in  : in  std_logic_vector(23 downto 0);	
+	  next_pc_in  : in  std_logic_vector(15 downto 0);	
+          next_pc_out : out std_logic_vector(15 downto 0);
           inst_out  : out  std_logic_vector(15 downto 0);
 	  AluAns_out  : out  std_logic_vector(15 downto 0);
 	  CCR_out  : out  std_logic_vector(3 downto 0);	
@@ -18,18 +20,20 @@ Entity regaux3 is
 
 Architecture behave of regaux3 is
     begin
-        PROCESS (Clk,rst)
+        PROCESS (Clk)
 	BEGIN
 		IF rst = '1'  THEN
 			inst_out        <= (OTHERS=>'0');
 			AluAns_out      <= (OTHERS=>'0');
 			CCR_out         <= (OTHERS=>'0');
 			ControlUnit_out <= (OTHERS=>'0');
+			next_pc_out <= (OTHERS=>'0');
 		ELSIF rising_edge(Clk) THEN
 			inst_out        <= inst_in;
 			AluAns_out   <= AluAns_in;
 			CCR_out   <= CCR_in;
 			ControlUnit_out <= ControlUnit_in;
+			next_pc_out <= next_pc_in;
 		END IF;
 	END PROCESS;
     end;
