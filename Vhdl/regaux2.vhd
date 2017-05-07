@@ -4,7 +4,7 @@ use ieee.std_logic_1164.all;
 -- Auxiliar register 2 - ID stage to EX stage
 
 Entity regaux2 is
-    Port (Clk,rst  : IN  std_logic;
+    Port (Clk,rst,en  : IN  std_logic;
 	  inst_in  : in  std_logic_vector(15 downto 0);
 	  ReadData1_in  : in  std_logic_vector(15 downto 0);
 	  ReadData2_in  : in  std_logic_vector(15 downto 0);	
@@ -28,7 +28,7 @@ Architecture behave of regaux2 is
 			ReadData2_out   <= (OTHERS=>'0');
 			ControlUnit_out <= (OTHERS=>'0');
 			next_pc_out <= (OTHERS=>'0');
-		ELSIF rising_edge(Clk) THEN
+		ELSIF rising_edge(Clk) and en='0' THEN
 			inst_out        <= inst_in;
 			ReadData1_out   <= ReadData1_in;
 			ReadData2_out   <= ReadData2_in;

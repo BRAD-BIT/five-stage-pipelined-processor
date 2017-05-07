@@ -1,10 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
--- Auxiliar register 4 - ME stage to WB stage
+-- Auxiliar register 4Temp - ME stage to WB stage
 
-Entity regaux4 is
-    Port (Clk,rst  : IN  std_logic;
+Entity regaux4Temp is
+    Port (Clk,rst,en  : IN  std_logic;
 	  inst_in  : in  std_logic_vector(15 downto 0);
 	  DataToReg_in  : in  std_logic_vector(15 downto 0);
 	  ControlUnit_in  : in  std_logic_vector(23 downto 0);	
@@ -14,7 +14,7 @@ Entity regaux4 is
          );
     End;
 
-Architecture behave of regaux4 is
+Architecture behave of regaux4Temp is
     begin
     PROCESS (Clk,rst,DataToReg_in)
 	BEGIN
@@ -22,7 +22,7 @@ Architecture behave of regaux4 is
 			inst_out        <= (OTHERS=>'0');
 			DataToReg_out   <= (OTHERS=>'0');
 			ControlUnit_out <= (OTHERS=>'0');
-		ELSIF Clk='0' THEN
+		ELSIF Clk='0' and en='0' THEN
 			inst_out        <= inst_in;
 			DataToReg_out   <= DataToReg_in;		
 			ControlUnit_out <= ControlUnit_in;

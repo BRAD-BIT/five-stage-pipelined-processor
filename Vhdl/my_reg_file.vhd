@@ -21,13 +21,13 @@ Architecture a_my_reg_file of my_reg_file is
     signal ram : ram_type;
 
     begin
-        process (ReadRegNum1, ReadRegNum2, WriteRegNum, clk)
+        process (clk)
 	begin
 	    if rst = '1' then
 		ReadData1 <="0000000000000000";
 		ReadData2 <="0000000000000000";
 	    Else	
-	        if clk'event and clk = '0' and not(ReadRegNum1="111") then 
+	        if clk'event and clk = '0' and not(ReadRegNum1="111")and not(ReadRegNum1="110") and not(ReadRegNum2="111")and not(ReadRegNum2="110") then 
             	ReadData1 <= ram(to_integer(unsigned(ReadRegNum1)));               
             	ReadData2 <= ram(to_integer(unsigned(ReadRegNum2)));               
             end if;

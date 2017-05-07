@@ -7,6 +7,7 @@ use ieee.numeric_std.all;
 
 Entity my_alu is
 port(
+	clk			  : in std_logic;
 	ALuOperand1   : in  std_logic_vector(15 downto 0);
 	ALuOperand2   : in  std_logic_vector(15 downto 0);
 	AluSelect 	  : in  std_logic_vector(03 downto 0);
@@ -23,12 +24,13 @@ End my_alu;
 Architecture a_my_alu of my_alu is
 
 begin
-	process (ALuOperand1,ALuOperand2,AluSelect)
+	process (ALuOperand1,ALuOperand2,AluSelect,clk)
 	Variable Y : std_logic_vector(16 downto 0);
 	Variable X : unsigned(16 downto 0);
         Variable Aux : std_logic_vector(3 downto 0);
 		
-        begin    
+        begin  
+	if clk='1' then
             Aux := AluSelect;
             case Aux is
 				--ALuAns Is ALuOperand1
@@ -203,6 +205,6 @@ begin
             end case;
 
 			ALuAns<=Y(15 DOWNTO 0);
-            
+            end if;
         end process;
 end a_my_alu;
