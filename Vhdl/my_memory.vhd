@@ -27,9 +27,9 @@ architecture a_my_memory of my_memory is
 
 signal ram : ram_type ;
 begin
-	process(clk) is
+	process(PushData,datain,address,EnablePop,EnablePush,EnableRead,EnableWrite) is
   		Begin
-			if falling_edge(clk) then  
+			if clk='0' or clk='1' then  
 				if EnableRead='1' then
   				dataout <= ram(to_integer(unsigned(address)));
 				end if;

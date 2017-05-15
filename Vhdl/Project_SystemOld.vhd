@@ -5,11 +5,7 @@ use IEEE.std_logic_unsigned.all;
 ENTITY project_system IS
 	PORT  ( 
 			system_clock            : IN     std_logic;
-			rest_registers          : IN     std_logic;
-			Interrupt				: IN 	 std_logic;
-			Reset					: IN 	 std_logic;
-			IN_PORT 				: IN	 std_logic_vector(15 DOWNTO 0);
-			OUT_PORT 				: OUT	 std_logic_vector(15 DOWNTO 0)
+			rest_registers          : IN     std_logic
 	     );
 END project_system;
 
@@ -150,7 +146,8 @@ ARCHITECTURE a_project_system OF project_system IS
 		Flags_out     : out std_logic_vector(03 downto 0)
 		);
 	End COMPONENT;
-	
+	--GLOBAL
+	SIGNAL OUT_PORT,IN_PORT : std_logic_vector(15 DOWNTO 0);
 
 	
 	--IF
@@ -166,8 +163,7 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL RegPipe1Rst			   : std_logic; 
 	SIGNAL EnableJmpCall 		   : std_logic;
 	SIGNAL EnableJmpCallFlush      : std_logic;
-	SIGNAL AluForward1,AluForward2 : std_logic_vector(15 DOWNTO 0);  
-	SIGNAL InputeNeeded  		   : std_logic;
+	SIGNAL AluForward1,AluForward2 : std_logic_vector(15 DOWNTO 0);   
 	--EX
 	SIGNAL DE_NEXT_PC : std_logic_vector(15 DOWNTO 0);
 	SIGNAL DE_ReadDate1,DE_ReadDate2,DE_Inst,ALuAns : std_logic_vector(15 DOWNTO 0);
@@ -175,6 +171,7 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL CCR 	: std_logic_vector(3 DOWNTO 0);
 	SIGNAL EnableBranch : std_logic;
 	SIGNAL EnableBranchFlush : std_logic;
+	SIGNAL EnableMemExForwardStall,EnableMemExForward: std_logic;
 	SIGNAL RegPipe2Rst			   : std_logic;
 	SIGNAL DE_ReadRegNum1 : std_logic_vector(2 DOWNTO 0);
 	--ME
@@ -189,8 +186,9 @@ ARCHITECTURE a_project_system OF project_system IS
 	SIGNAL EnableRetFlush      : std_logic;
 	SIGNAL RegPipe3Rst		   : std_logic;
 	--WB
-	SIGNAL MW_Inst,MW_DataToReg : std_logic_vector(15 DOWNTO 0);
-	SIGNAL MW_ControlSignals 	: std_logic_vector(23 DOWNTO 0);
+	SIGNAL MW_Inst,MW_DataToReg,MW_Inst_Temp,MW_DataToReg_Temp : std_logic_vector(15 DOWNTO 0);
+	SIGNAL MW_ControlSignals,MW_ControlSignals_Temp 	: std_logic_vector(23 DOWNTO 0);
+	SIGNAL EnableRegPipe4Temp : std_logic;
 	BEGIN
 	--IF
 	CurrentPC	: my_reg             port map(system_clock,rest_registers,'1',NEXT_PC,Current_PC);
@@ -198,19 +196,18 @@ ARCHITECTURE a_project_system OF project_system IS
 	NEXT_PC <= ALuAns    WHEN EnableBranchFlush='1'  AND system_clock='0'
 	ELSE 	   ReadData1 WHEN EnableJmpCallFlush='1' AND system_clock='0'
 	ELSE       "000000"&PopData(9 DOWNTO 0) WHEN EnableRetFlush='1' AND system_clock='0'
+	ELSE 	   Current_PC  WHEN EnableMemExForward='1' AND system_clock='0'
 	ELSE       Current_PC+1;
 	
 	InstMemory	: my_inst_memory     port map(system_clock,Current_PC(5 downto 0),Inst);
 	
 	RegPipe1Rst<=rest_registers or EnableBranchFlush or EnableJmpCallFlush or EnableRetFlush;
-	RegPipe1 	: regaux1	     port map(system_clock,RegPipe1Rst,'0',Inst,NEXT_PC,FD_NEXT_PC,FD_Inst);
+	RegPipe1 	: regaux1	     port map(system_clock,RegPipe1Rst,EnableMemExForwardStall,Inst,NEXT_PC,FD_NEXT_PC,FD_Inst);
 	--ID
 
 	FD_Inst_Opcode <= FD_Inst(15 downto 11);
 	StopControlUnit<=rest_registers or DE_ControlSignals(6);
 	ControlUnit     : my_control_unit    port map(StopControlUnit,system_clock,FD_Inst_Opcode,ControlSignals);
-	
-	InputeNeeded<=ControlSignals(8);
 	
 	ReadRegNumSel	: my_mux2	     port map(ControlSignals(20),FD_Inst(7 downto 5),FD_Inst(10 downto 8),ReadRegNum1);
 	ReadRegNum2 <= FD_Inst(4 downto 2);
@@ -230,31 +227,36 @@ ARCHITECTURE a_project_system OF project_system IS
 	
 	
 	RegPipe2Rst<=rest_registers or EnableBranchFlush or EnableRetFlush;
-	RegPipe2 	    : regaux2	     port map(system_clock,RegPipe2Rst,'0',FD_Inst,ReadData1,ReadData2,ControlSignals,FD_NEXT_PC,DE_NEXT_PC,DE_Inst,DE_ReadDate1,DE_ReadDate2,DE_ControlSignals);
+	RegPipe2 	    : regaux2	     port map(system_clock,RegPipe2Rst,EnableMemExForwardStall,FD_Inst,ReadData1,ReadData2,ControlSignals,FD_NEXT_PC,DE_NEXT_PC,DE_Inst,DE_ReadDate1,DE_ReadDate2,DE_ControlSignals);
 	
 	--EX
 	
 	DE_ReadRegNum1 <= DE_Inst(7 downto 5) WHEN DE_ControlSignals(20)='0'
 	ELSE DE_Inst(10 downto 8);
 	
-
+	EnableMemExForward<= '1' WHEN EM_Inst(10 downto 8)=DE_ReadRegNum1 and EM_ControlSignals(21)='1' and EM_ControlSignals(11)='1'
+		ELSE			'1' WHEN EM_Inst(10 downto 8)=DE_Inst(4 downto 2) and EM_ControlSignals(21)='1' and EM_ControlSignals(14)='1'
+		ELSE            '1' WHEN EM_Inst(10 downto 8)=DE_Inst(4 downto 2) and EM_ControlSignals(21)='1' and EM_ControlSignals(11)='1'
+		ELSE  			'0';
+	
+	StallForEx		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableMemExForward,EnableMemExForwardStall);
 
 	
-	AluForward1 <= EM_ALuAns WHEN EM_Inst(10 downto 8)=DE_ReadRegNum1 and EM_ControlSignals(21)='1' and EM_ControlSignals(14)='0' and EM_ControlSignals(11)='0' and EM_ControlSignals(8)='0'
-	ELSE PopData WHEN EM_Inst(10 downto 8)=DE_ReadRegNum1 and EM_ControlSignals(21)='1' and EM_ControlSignals(11)='1'
-	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_ReadRegNum1 and MW_ControlSignals(21)='1' and (MW_ControlSignals(14)='1' or MW_ControlSignals(11)='1' or MW_ControlSignals(8)='0')
-	ELSE IN_PORT WHEN MW_Inst(10 downto 8)=DE_ReadRegNum1 and MW_ControlSignals(8)='1'
-	ELSE IN_PORT WHEN EM_Inst(10 downto 8)=DE_ReadRegNum1 and EM_ControlSignals(8)='1'
+	AluForward1 <= EM_ALuAns WHEN EM_Inst(10 downto 8)=DE_ReadRegNum1 and EM_ControlSignals(21)='1' and EM_ControlSignals(14)='0' and EM_ControlSignals(11)='0' and EM_ControlSignals(8)='0' and EnableMemExForwardStall='0'
+	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_ReadRegNum1 and MW_ControlSignals(21)='1' and MW_ControlSignals(14)='0' and MW_ControlSignals(11)='0' and MW_ControlSignals(8)='0' 
+	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_ReadRegNum1 and EnableMemExForwardStall='1'
+	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_ReadRegNum1 and MW_ControlSignals(21)='1' and MW_ControlSignals(14)='1'
+	ELSE MW_DataToReg_Temp WHEN EnableMemExForwardStall='1' and MW_Inst_Temp(10 downto 8)=DE_ReadRegNum1 and MW_ControlSignals_Temp(21)='1' and MW_ControlSignals_Temp(14)='0' and MW_ControlSignals_Temp(11)='0' and MW_ControlSignals_Temp(8)='0' 
 	ELSE DE_ReadDate1;
 	
-	AluForward2 <= EM_ALuAns WHEN EM_Inst(10 downto 8)=DE_Inst(4 downto 2) and EM_ControlSignals(21)='1' and EM_ControlSignals(14)='0' and EM_ControlSignals(11)='0' and EM_ControlSignals(8)='0'
-	ELSE PopData WHEN EM_Inst(10 downto 8)=DE_Inst(4 downto 2) and EM_ControlSignals(21)='1' and EM_ControlSignals(11)='1'
-	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_Inst(4 downto 2) and MW_ControlSignals(21)='1' and (MW_ControlSignals(14)='1' or MW_ControlSignals(11)='1' or MW_ControlSignals(8)='0')
-	ELSE IN_PORT WHEN MW_Inst(10 downto 8)=DE_Inst(4 downto 2) and MW_ControlSignals(8)='1'
-	ELSE IN_PORT WHEN EM_Inst(10 downto 8)=DE_Inst(4 downto 2) and EM_ControlSignals(8)='1'
+	AluForward2 <= EM_ALuAns WHEN EM_Inst(10 downto 8)=DE_Inst(4 downto 2) and EM_ControlSignals(21)='1' and EM_ControlSignals(14)='0' and EM_ControlSignals(11)='0' and EM_ControlSignals(8)='0' and EnableMemExForwardStall ='0'
+	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_Inst(4 downto 2) and MW_ControlSignals(21)='1' and MW_ControlSignals(14)='0' and MW_ControlSignals(11)='0' and MW_ControlSignals(8)='0' 
+	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_Inst(4 downto 2) and EnableMemExForwardStall='1'
+	ELSE MW_DataToReg WHEN MW_Inst(10 downto 8)=DE_Inst(4 downto 2) and MW_ControlSignals(21)='1' and MW_ControlSignals(14)='1'
+	ELSE MW_DataToReg_Temp WHEN EnableMemExForwardStall='1' and MW_Inst_Temp(10 downto 8)=DE_Inst(4 downto 2) and MW_ControlSignals_Temp(21)='1' and MW_ControlSignals_Temp(14)='0' and MW_ControlSignals_Temp(11)='0' and MW_ControlSignals_Temp(8)='0' 
 	ELSE DE_ReadDate2;
 	
-	OUT_PORT<=AluForward1;
+	
 	
 	
 		
@@ -267,7 +269,7 @@ ARCHITECTURE a_project_system OF project_system IS
 	
 	FlushBranchSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableBranch,EnableBranchFlush);
 	
-	RegPipe3Rst<=rest_registers or EnableRetFlush;
+	RegPipe3Rst<=rest_registers or EnableRetFlush or EnableMemExForwardStall;
 	RegPipe3 	    : regaux3	     port map(system_clock,RegPipe3Rst,DE_Inst,ALuAns,CCR,DE_ControlSignals,DE_NEXT_PC,EM_NEXT_PC,EM_Inst,EM_ALuAns,EM_CCR,EM_ControlSignals);
 
 	--ME
@@ -286,7 +288,6 @@ ARCHITECTURE a_project_system OF project_system IS
 	ELSE EM_ALuAns;
 
 	EnableRet<='1' WHEN EM_Inst(15 DOWNTO 11)="11001"
-	ELSE       '1' WHEN EM_Inst(15 DOWNTO 11)="11010"
 	ELSE '0';
 	
 	FlushRetSet		: my_branch_flush_reg port map(system_clock,rest_registers,'1',EnableRet,EnableRetFlush);
@@ -294,9 +295,11 @@ ARCHITECTURE a_project_system OF project_system IS
 	RegPipe4 	    : regaux4	     port map(system_clock,rest_registers,EM_Inst,DataToReg,EM_ControlSignals,MW_Inst,MW_DataToReg,MW_ControlSignals);
 	
 
-	
+	EnableRegPipe4Temp<=EnableMemExForward;
+	RegPipe4Temp 	: regaux4Temp	 port map(system_clock,rest_registers,EnableRegPipe4Temp,EM_Inst,DataToReg,EM_ControlSignals,MW_Inst_Temp,MW_DataToReg_Temp,MW_ControlSignals_Temp);
+
 	--WB
-	
+
 	
 END a_project_system;
 
