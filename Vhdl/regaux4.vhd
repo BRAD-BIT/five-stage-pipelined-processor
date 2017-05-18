@@ -8,7 +8,7 @@ Entity regaux4 is
 	  inst_in  : in  std_logic_vector(15 downto 0);
 	  DataToReg_in  : in  std_logic_vector(15 downto 0);
 	  ControlUnit_in  : in  std_logic_vector(23 downto 0);	
-          inst_out  : out  std_logic_vector(15 downto 0);
+      inst_out  : out  std_logic_vector(15 downto 0);
 	  DataToReg_out  : out  std_logic_vector(15 downto 0);
 	  ControlUnit_out  : out  std_logic_vector(23 downto 0)	
          );

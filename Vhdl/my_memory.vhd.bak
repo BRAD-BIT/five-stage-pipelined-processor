@@ -29,11 +29,11 @@ signal ram : ram_type ;
 begin
 	process(PushData,datain,address,EnablePop,EnablePush,EnableRead,EnableWrite) is
   		Begin
-			if (clk='0' or clk='1') then  
-				if EnableRead='1' and to_integer(unsigned(address))<1024 then
+			if (clk='0' or clk='1')and not(clock'event) then  
+				if EnableRead='1' then
   				dataout <= ram(to_integer(unsigned(address)));
 				end if;
-				if EnableWrite='1' and to_integer(unsigned(address))<1024 then
+				if EnableWrite='1' then
   				ram(to_integer(unsigned(address)))<=datain;
 				end if;
 				if EnablePop='1' then

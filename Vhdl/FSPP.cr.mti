@@ -1,0 +1,113 @@
+F:/www/Pro/Project/Vhdl/my_reg.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_reg.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity my_reg
+-- Compiling architecture a_my_reg of my_reg
+
+} {} {}} F:/www/Pro/Project/Vhdl/my_inst_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_inst_memory.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity my_inst_memory
+-- Compiling architecture a_my_inst_memory of my_inst_memory
+
+} {} {}} F:/www/Pro/Project/Vhdl/regaux1.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/regaux1.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity regaux1
+-- Compiling architecture behave of regaux1
+
+} {} {}} F:/www/Pro/Project/Vhdl/regaux2.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/regaux2.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity regaux2
+-- Compiling architecture behave of regaux2
+
+} {} {}} F:/www/Pro/Project/Vhdl/regaux4Temp.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/regaux4Temp.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity regaux4Temp
+-- Compiling architecture behave of regaux4Temp
+
+} {} {}} F:/www/Pro/Project/Vhdl/regaux3.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/regaux3.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity regaux3
+-- Compiling architecture behave of regaux3
+
+} {} {}} F:/www/Pro/Project/Vhdl/regaux4.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/regaux4.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity regaux4
+-- Compiling architecture behave of regaux4
+
+} {} {}} F:/www/Pro/Project/Vhdl/my_mux2.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_mux2.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity my_mux2
+-- Compiling architecture a_my_mux2 of my_mux2
+
+} {} {}} F:/www/Pro/Project/Vhdl/my_reg_file.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_reg_file.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity my_reg_file
+-- Compiling architecture a_my_reg_file of my_reg_file
+
+} {} {}} F:/www/Pro/Project/Vhdl/Project_System.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/Project_System.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity project_system
+-- Compiling architecture a_project_system of project_system
+
+} {} {}} F:/www/Pro/Project/Vhdl/my_control_unit.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_control_unit.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity my_control_unit
+-- Compiling architecture a_my_control_unit of my_control_unit
+
+} {} {}} F:/www/Pro/Project/Vhdl/my_memory.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_memory.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package NUMERIC_STD
+-- Compiling entity my_memory
+-- Compiling architecture a_my_memory of my_memory
+
+} {} {}} F:/www/Pro/Project/Vhdl/my_branch_flush_reg.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/www/Pro/Project/Vhdl/my_branch_flush_reg.vhd
+Model Technology ModelSim ALTERA vcom 10.4d Compiler 2015.12 Dec 30 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity my_branch_flush_reg
+-- Compiling architecture a_my_branch_flush_reg of my_branch_flush_reg
+
+} {} {}}

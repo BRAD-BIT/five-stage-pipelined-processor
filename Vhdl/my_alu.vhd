@@ -88,7 +88,7 @@ begin
 				
 				--RLC
                 when "0101" => 
-				Y := ALuOperand1(15)&ALuOperand1(14 DOWNTO 0)&ALuOperand1(15);
+				Y := ALuOperand1(15)&ALuOperand1(14 DOWNTO 0)&Flags_in(2);
 				if Y = 0 then
 					Flags_out(0) <= '1';
 				else
@@ -100,7 +100,7 @@ begin
 				
 				--RRC
 				when "0110" => 
-				Y := ALuOperand1(0)&ALuOperand1(0)&ALuOperand1(15 DOWNTO 1);
+				Y := ALuOperand1(0)&Flags_in(2)&ALuOperand1(15 DOWNTO 1);
 				if Y = 0 then
 					Flags_out(0) <= '1';
 				else

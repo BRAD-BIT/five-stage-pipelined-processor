@@ -1,0 +1,9 @@
+LDM R1,7  		#R1=7
+7
+LDM R2,6  		#R2=6
+6
+ADD R1,R2,R1 	#R1=13
+LDM R0,9  		#R0=9
+9
+OR  R2,R0,R2 	#R2=15         
+OUT R2    		#OUT PORT =15

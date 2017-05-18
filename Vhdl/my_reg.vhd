@@ -9,11 +9,11 @@ END my_reg;
 
 ARCHITECTURE a_my_reg OF my_reg IS
 	BEGIN
-		PROCESS (Clk,rst)
+		PROCESS (Clk,rst,d)
 			BEGIN
 				IF rst = '1'  THEN
 					q <= (OTHERS=>'0');
-				ELSIF en = '1' AND rising_edge(Clk) THEN
+				ELSIF rising_edge(Clk) or (en='1' and Clk='1') THEN
 					q <= d;
 				END IF;
 		END PROCESS;

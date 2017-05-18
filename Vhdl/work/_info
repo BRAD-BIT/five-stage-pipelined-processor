@@ -1,0 +1,578 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/moham/Desktop/#Arch_Proj/vhdl
+Emy_alu
+Z0 w1495069576
+Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z2 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z3 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+Z4 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z5 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z6 dF:/www/Pro/Project/Vhdl
+Z7 8F:/www/Pro/Project/Vhdl/my_alu.vhd
+Z8 FF:/www/Pro/Project/Vhdl/my_alu.vhd
+l0
+L8
+Vgme;6AL]mE]THSL_48>F=1
+!s100 CJ:GdCWJDNTALSV7NIc_H2
+Z9 OV;C;10.4d;61
+32
+Z10 !s110 1495069631
+!i10b 1
+Z11 !s108 1495069631.000000
+Z12 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_alu.vhd|
+Z13 !s107 F:/www/Pro/Project/Vhdl/my_alu.vhd|
+!i113 1
+Z14 o-work work -2002 -explicit
+Z15 tExplicit 1
+Aa_my_alu
+R1
+R2
+R3
+R4
+R5
+Z16 DEx4 work 6 my_alu 0 22 gme;6AL]mE]THSL_48>F=1
+l26
+L24
+Vc9z6Tjf_UbLhd2H7k@^VK1
+!s100 Wk7aF`SFWAU>hJU@XE60N1
+R9
+32
+R10
+!i10b 1
+R11
+R12
+R13
+!i113 1
+R14
+R15
+Emy_branch_flush_reg
+Z17 w1493823073
+R4
+R5
+R6
+Z18 8F:/www/Pro/Project/Vhdl/my_branch_flush_reg.vhd
+Z19 FF:/www/Pro/Project/Vhdl/my_branch_flush_reg.vhd
+l0
+L4
+VdcOY]XdhO[<:MhgTLUXI30
+!s100 Um[<DJJR7]Cj1>7;TPZCz1
+R9
+32
+Z20 !s110 1494893994
+!i10b 1
+Z21 !s108 1494893994.000000
+Z22 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_branch_flush_reg.vhd|
+Z23 !s107 F:/www/Pro/Project/Vhdl/my_branch_flush_reg.vhd|
+!i113 1
+R14
+R15
+Aa_my_branch_flush_reg
+R4
+R5
+DEx4 work 19 my_branch_flush_reg 0 22 dcOY]XdhO[<:MhgTLUXI30
+l11
+L10
+V>_4mJMRb;GAN;57izo>C03
+!s100 5Fz[I0[?2GTj9l^gX4ZZM3
+R9
+32
+R20
+!i10b 1
+R21
+R22
+R23
+!i113 1
+R14
+R15
+Emy_control_unit
+Z24 w1493825007
+R1
+R4
+R5
+R6
+Z25 8F:/www/Pro/Project/Vhdl/my_control_unit.vhd
+Z26 FF:/www/Pro/Project/Vhdl/my_control_unit.vhd
+l0
+L6
+V8U6H>V120b9ZD@?`B@FTT0
+!s100 0GIU_ghDX[cO<HnUTRP^02
+R9
+32
+Z27 !s110 1494893995
+!i10b 1
+Z28 !s108 1494893995.000000
+Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_control_unit.vhd|
+Z30 !s107 F:/www/Pro/Project/Vhdl/my_control_unit.vhd|
+!i113 1
+R14
+R15
+Aa_my_control_unit
+R1
+R4
+R5
+DEx4 work 15 my_control_unit 0 22 8U6H>V120b9ZD@?`B@FTT0
+l19
+L14
+VWSkmclCY9kC@k4B5hWF^V3
+!s100 WZlG4aOcE=C2fOgoZhh`e0
+R9
+32
+R27
+!i10b 1
+R28
+R29
+R30
+!i113 1
+R14
+R15
+Emy_inst_memory
+Z31 w1493753799
+R1
+R4
+R5
+R6
+Z32 8F:/www/Pro/Project/Vhdl/my_inst_memory.vhd
+Z33 FF:/www/Pro/Project/Vhdl/my_inst_memory.vhd
+l0
+L6
+VVjmoc=h6SR4mUJ[i_E1mK3
+!s100 fVZN@ZMFI=Kb?;f20?T^n2
+R9
+32
+R27
+!i10b 1
+R28
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_inst_memory.vhd|
+Z35 !s107 F:/www/Pro/Project/Vhdl/my_inst_memory.vhd|
+!i113 1
+R14
+R15
+Aa_my_inst_memory
+R1
+R4
+R5
+DEx4 work 14 my_inst_memory 0 22 Vjmoc=h6SR4mUJ[i_E1mK3
+l18
+L13
+V55NONJWXa2C1MSa=[zmZY1
+!s100 BcJN3b?f<Pbi^[o`i8bnd2
+R9
+32
+R27
+!i10b 1
+R28
+R34
+R35
+!i113 1
+R14
+R15
+Emy_memory
+Z36 w1494900185
+R1
+R2
+R3
+R4
+R5
+R6
+Z37 8F:/www/Pro/Project/Vhdl/my_memory.vhd
+Z38 FF:/www/Pro/Project/Vhdl/my_memory.vhd
+l0
+L7
+VX=H8TTM8^bd1MQCaJod]j0
+!s100 H2k^QUZ>ZR>jmC]UB[2Mj2
+R9
+32
+Z39 !s110 1494900192
+!i10b 1
+Z40 !s108 1494900192.000000
+Z41 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_memory.vhd|
+Z42 !s107 F:/www/Pro/Project/Vhdl/my_memory.vhd|
+!i113 1
+R14
+R15
+Aa_my_memory
+R1
+R2
+R3
+R4
+R5
+DEx4 work 9 my_memory 0 22 X=H8TTM8^bd1MQCaJod]j0
+l29
+L24
+VjI3Pd5J7b`;f^lMY?hEk^3
+!s100 XH`g7X=CMjFjagUf5EFo<3
+R9
+32
+R39
+!i10b 1
+R40
+R41
+R42
+!i113 1
+R14
+R15
+Emy_mux2
+Z43 w1493658772
+R4
+R5
+R6
+Z44 8F:/www/Pro/Project/Vhdl/my_mux2.vhd
+Z45 FF:/www/Pro/Project/Vhdl/my_mux2.vhd
+l0
+L4
+VbRU>gA6e=Co@CAfleF^Sf1
+!s100 5>[67z`307JNn`GXB?i9?3
+R9
+32
+Z46 !s110 1494893996
+!i10b 1
+R28
+Z47 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_mux2.vhd|
+Z48 !s107 F:/www/Pro/Project/Vhdl/my_mux2.vhd|
+!i113 1
+R14
+R15
+Aa_my_mux2
+R4
+R5
+DEx4 work 7 my_mux2 0 22 bRU>gA6e=Co@CAfleF^Sf1
+l13
+L12
+Vb7Kj_CcXm?VekWJ^4?Y592
+!s100 Bma^?Cd@0h>Y1O9Zg>Ie?3
+R9
+32
+R46
+!i10b 1
+R28
+R47
+R48
+!i113 1
+R14
+R15
+Emy_reg
+Z49 w1494904027
+R4
+R5
+R6
+Z50 8F:/www/Pro/Project/Vhdl/my_reg.vhd
+Z51 FF:/www/Pro/Project/Vhdl/my_reg.vhd
+l0
+L4
+V^89>DOEFe1XMeb:2N3H_k1
+!s100 gIMTjGL6GAO_8kJ[XhacK0
+R9
+32
+Z52 !s110 1494904035
+!i10b 1
+Z53 !s108 1494904035.000000
+Z54 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_reg.vhd|
+Z55 !s107 F:/www/Pro/Project/Vhdl/my_reg.vhd|
+!i113 1
+R14
+R15
+Aa_my_reg
+R4
+R5
+DEx4 work 6 my_reg 0 22 ^89>DOEFe1XMeb:2N3H_k1
+l11
+L10
+VUlkkTQ@OTE1AnPZkGmOjX0
+!s100 9eakL9`LkUa``OYe1>o;K0
+R9
+32
+R52
+!i10b 1
+R53
+R54
+R55
+!i113 1
+R14
+R15
+Emy_reg_file
+Z56 w1494103511
+R1
+R4
+R5
+R6
+Z57 8F:/www/Pro/Project/Vhdl/my_reg_file.vhd
+Z58 FF:/www/Pro/Project/Vhdl/my_reg_file.vhd
+l0
+L5
+V29e>G[7m3ZCW4]fjhff?A0
+!s100 ^V:1OPblPmZ1i^i8jFW4[0
+R9
+32
+R46
+!i10b 1
+Z59 !s108 1494893996.000000
+Z60 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/my_reg_file.vhd|
+Z61 !s107 F:/www/Pro/Project/Vhdl/my_reg_file.vhd|
+!i113 1
+R14
+R15
+Aa_my_reg_file
+R1
+R4
+R5
+DEx4 work 11 my_reg_file 0 22 29e>G[7m3ZCW4]fjhff?A0
+l23
+L18
+VWZF[:8R1>RCz^EKk>B:Z@2
+!s100 @H>dYKB[F737d6aI]NfIV2
+R9
+32
+R46
+!i10b 1
+R59
+R60
+R61
+!i113 1
+R14
+R15
+Eproject_system
+Z62 w1494991988
+R2
+R3
+R4
+R5
+R6
+Z63 8F:/www/Pro/Project/Vhdl/Project_System.vhd
+Z64 FF:/www/Pro/Project/Vhdl/Project_System.vhd
+l0
+L5
+VCPYoKfoDB<@;7O4JN=ebe0
+!s100 9jW_[99Qn2gBgH38ICc;b1
+R9
+32
+Z65 !s110 1494992001
+!i10b 1
+Z66 !s108 1494992001.000000
+Z67 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/Project_System.vhd|
+Z68 !s107 F:/www/Pro/Project/Vhdl/Project_System.vhd|
+!i113 1
+R14
+R15
+Aa_project_system
+R2
+R3
+R4
+R5
+DEx4 work 14 project_system 0 22 CPYoKfoDB<@;7O4JN=ebe0
+l214
+L16
+V=0VKKLBUNNWkPK_iUZABA1
+!s100 M>iIIhYnbmi6k[J^j>]cB0
+R9
+32
+R65
+!i10b 1
+R66
+R67
+R68
+!i113 1
+R14
+R15
+Eregaux1
+Z69 w1494906072
+R4
+R5
+R6
+Z70 8F:/www/Pro/Project/Vhdl/regaux1.vhd
+Z71 FF:/www/Pro/Project/Vhdl/regaux1.vhd
+l0
+L6
+V5f2RNKBSiHko<FIG5SbgJ0
+!s100 ?@R`nP7ZA0^ol=i<L:Dg]3
+R9
+32
+Z72 !s110 1494906081
+!i10b 1
+Z73 !s108 1494906081.000000
+Z74 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/regaux1.vhd|
+Z75 !s107 F:/www/Pro/Project/Vhdl/regaux1.vhd|
+!i113 1
+R14
+R15
+Abehave
+R4
+R5
+DEx4 work 7 regaux1 0 22 5f2RNKBSiHko<FIG5SbgJ0
+l20
+L19
+V1K8AW4Qz7CC[0lS1PabkS0
+!s100 I>XU^aXc2?d2j4^NTgcA`1
+R9
+32
+R72
+!i10b 1
+R73
+R74
+R75
+!i113 1
+R14
+R15
+Eregaux2
+Z76 w1494884468
+R4
+R5
+R6
+Z77 8F:/www/Pro/Project/Vhdl/regaux2.vhd
+Z78 FF:/www/Pro/Project/Vhdl/regaux2.vhd
+l0
+L6
+V:O^d8ekVFQ[5:Aj7imON<0
+!s100 nWcdHPF?igb?FlU[NIS1d1
+R9
+32
+Z79 !s110 1494893997
+!i10b 1
+Z80 !s108 1494893997.000000
+Z81 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/regaux2.vhd|
+Z82 !s107 F:/www/Pro/Project/Vhdl/regaux2.vhd|
+!i113 1
+R14
+R15
+Abehave
+R4
+R5
+DEx4 work 7 regaux2 0 22 :O^d8ekVFQ[5:Aj7imON<0
+l26
+L25
+V0Tl_dcJU`U_Cz<oi2nK9k0
+!s100 c8Za2c[;J>KUZPK>YQVRi1
+R9
+32
+R79
+!i10b 1
+R80
+R81
+R82
+!i113 1
+R14
+R15
+Eregaux3
+Z83 w1494911181
+R4
+R5
+R6
+Z84 8F:/www/Pro/Project/Vhdl/regaux3.vhd
+Z85 FF:/www/Pro/Project/Vhdl/regaux3.vhd
+l0
+L6
+VV7CkTWYTXV>AY^]F1dmo43
+!s100 bKKl4C`]UX_X2]8ELzTTM3
+R9
+32
+Z86 !s110 1494911186
+!i10b 1
+Z87 !s108 1494911186.000000
+Z88 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/regaux3.vhd|
+Z89 !s107 F:/www/Pro/Project/Vhdl/regaux3.vhd|
+!i113 1
+R14
+R15
+Abehave
+R4
+R5
+DEx4 work 7 regaux3 0 22 V7CkTWYTXV>AY^]F1dmo43
+l26
+L25
+VeB4Ozbz5`bhn]nIS0V7^D3
+!s100 Je:FJk>bXFI@389[8F3^m0
+R9
+32
+R86
+!i10b 1
+R87
+R88
+R89
+!i113 1
+R14
+R15
+Eregaux4
+Z90 w1494884350
+R4
+R5
+R6
+Z91 8F:/www/Pro/Project/Vhdl/regaux4.vhd
+Z92 FF:/www/Pro/Project/Vhdl/regaux4.vhd
+l0
+L6
+VE^QS7DflUlim`e94]8:ZI0
+!s100 5K_XY=_TZeGGgAmYMbK:<1
+R9
+32
+R79
+!i10b 1
+R80
+Z93 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/regaux4.vhd|
+Z94 !s107 F:/www/Pro/Project/Vhdl/regaux4.vhd|
+!i113 1
+R14
+R15
+Abehave
+R4
+R5
+DEx4 work 7 regaux4 0 22 E^QS7DflUlim`e94]8:ZI0
+l18
+L17
+VgC49ATzB:3jfQL77G_c=12
+!s100 PCS712IlDQUFS4gW9ec9B0
+R9
+32
+R79
+!i10b 1
+R80
+R93
+R94
+!i113 1
+R14
+R15
+Eregaux4temp
+Z95 w1494111480
+R4
+R5
+R6
+Z96 8F:/www/Pro/Project/Vhdl/regaux4Temp.vhd
+Z97 FF:/www/Pro/Project/Vhdl/regaux4Temp.vhd
+l0
+L6
+VDTUR;=mDhYO^9:T55@^TF0
+!s100 A;Dj>XnLUz?ggZ1M0FZM72
+R9
+32
+R20
+!i10b 1
+R21
+Z98 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/www/Pro/Project/Vhdl/regaux4Temp.vhd|
+Z99 !s107 F:/www/Pro/Project/Vhdl/regaux4Temp.vhd|
+!i113 1
+R14
+R15
+Abehave
+R4
+R5
+DEx4 work 11 regaux4temp 0 22 DTUR;=mDhYO^9:T55@^TF0
+l18
+L17
+V55GJRYEEOH1azf2O=VL7W1
+!s100 dB`I@^_fm4nA?j_^Lhb3P3
+R9
+32
+R20
+!i10b 1
+R21
+R98
+R99
+!i113 1
+R14
+R15
